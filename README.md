@@ -14,7 +14,7 @@ To manually install `place-csharp`, you can [download the source](https://github
 
 ```csharp
 // set your api key
-PlaceClient.api_key = 'private_key_6fsMi3GDxXg1XXSluNx1sLEd'
+PlaceClient.api_key = "private_key_6fsMi3GDxXg1XXSluNx1sLEd";
 
 // create an account
 PlaceAccount accnt = PlaceAccount.create(new {
