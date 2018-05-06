@@ -1,10 +1,10 @@
-# Place .NET Library
+# Place .NET Library [BETA]
 
 A .NET Library for interfacing with the Place API
 
 ## Installation
 
-To manually install `place-csharp`, you can [download the source](https://github.com/placepay/place-csharp/zipball/master):
+To manually install `place-csharp`, you can [download the source](https://github.com/placepay/place-csharp/zipball/master).
 
 ## Requirements
 
