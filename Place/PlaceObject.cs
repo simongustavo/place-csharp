@@ -1,5 +1,6 @@
 using System;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
@@ -7,6 +8,9 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Dynamic;
+
+// TODO: https://gist.github.com/y-gagar1n/5656772
 
 namespace Place {
 
@@ -51,6 +55,29 @@ namespace Place {
 		public void update( object data, object parameters=null ) {
 			request( "PUT", this.id, parameters, json: data, obj: this );
 		}
+		
+		public void delete() {
+			request( "DELETE", this.id, obj: this );
+		}
+		
+    public static List<T> update_all( object[] objects, object parameters=null ) {
+      object[] updates = objects.Select(x=>
+				ObjectHelper
+					.ToDictionary(((object[])x)[1])
+					.Union(new Dictionary<string, object>{ {"id",((object[])x)[0]} })
+				).ToArray();
+      
+      dynamic json = new ExpandoObject();
+      ((IDictionary<string, object>)json).Add("object", "list");
+      ((IDictionary<string, object>)json).Add("values", updates);
+
+      return request("PUT", parameters: parameters, json: json);
+    }
+
+    public static List<T> delete_all( object[] objects ) {
+      string deletes = String.Join("|", objects.Select(x=>x.GetType().GetProperty("id").GetValue(x, null)).ToArray());
+      return request("DELETE", parameters: new{id=deletes});
+    }
 
 		public static dynamic request(string method, string id=null,
 			object parameters=null, object json=null, PlaceObject<T> obj=null) {
@@ -80,8 +107,7 @@ namespace Place {
 				request.ContentLength = 0;
 				request.Accept = "application/json";
 
-				if (json != null)
-				{
+				if (json != null) {
 					request.ContentType = "application/json";
 					string post_data = JsonConvert.SerializeObject(json, Formatting.None, jsonsettings );
 					var bytes = Encoding.GetEncoding("iso-8859-1").GetBytes(post_data);
@@ -93,17 +119,14 @@ namespace Place {
 					}
 				}
 
-				using (var response = (HttpWebResponse)request.GetResponse())
-				{
-					if (response.StatusCode != HttpStatusCode.OK)
-					{
+				using (var response = (HttpWebResponse)request.GetResponse()) {
+					if (response.StatusCode != HttpStatusCode.OK) {
 						var message = String.Format("Request failed. Received HTTP {0}", response.StatusCode);
 						throw new ApplicationException(message);
 					}
 
 					// grab the response
-					using (var responseStream = response.GetResponseStream())
-					{
+					using (var responseStream = response.GetResponseStream()) {
 						if (responseStream != null)
 							using (var reader = new StreamReader(responseStream))
 							{
@@ -122,30 +145,23 @@ namespace Place {
 						return (List<T>) objs.values;
 					}
 				}
-			}
-			catch (System.Net.WebException ex)
-			{
+			} catch (System.Net.WebException ex) {
 				var WebResponse = ex.Response;
-				if (ex.Status == WebExceptionStatus.ProtocolError)
-				{
-					if (WebResponse.ContentLength != 0)
-					{
-						using (var response_stream = WebResponse.GetResponseStream())
-						{
-							using (var response_reader = new StreamReader(response_stream))
-							{
+				if (ex.Status == WebExceptionStatus.ProtocolError) {
+					if (WebResponse.ContentLength != 0) {
+						using (var response_stream = WebResponse.GetResponseStream()) {
+							using (var response_reader = new StreamReader(response_stream)) {
 								responseValue = response_reader.ReadToEnd();
-								//return responseValue;
-								throw new Exception("test");
+								
+								var converter = new ExpandoObjectConverter();
+								dynamic error = JsonConvert.DeserializeObject<ExpandoObject>(responseValue, converter);
+
+								throw new Exception(error.error_description);
 							}
 						}
 					}
 				}
 
-				throw;
-			}
-			catch (Exception ex)
-			{
 				throw ex;
 			}
 		}
