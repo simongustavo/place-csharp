@@ -75,7 +75,8 @@ namespace Place {
 		}
 
 		public static List<T> delete_all( object[] objects ) {
-			string deletes = String.Join("|", objects.Select(x=>x.GetType().GetProperty("id").GetValue(x, null)).ToArray());
+			string deletes = String.Join("|", objects.Select(x=>
+				x.GetType().GetProperty("id").GetValue(x, null)).ToArray());
 			return request("DELETE", parameters: new{id=deletes});
 		}
 
@@ -86,8 +87,7 @@ namespace Place {
 				obj = (PlaceObject<T>)Activator.CreateInstance(typeof(T));
 
 			string responseValue = string.Empty;
-			try
-			{
+			try {
 				string req_url = PlaceClient.api_url + obj.resource;
 
 				if (!string.IsNullOrEmpty(id))
@@ -109,12 +109,11 @@ namespace Place {
 
 				if (json != null) {
 					request.ContentType = "application/json";
-					string post_data = JsonConvert.SerializeObject(json, Formatting.None, jsonsettings );
+					string post_data = JsonConvert.SerializeObject(json, Formatting.None, jsonsettings);
 					var bytes = Encoding.GetEncoding("iso-8859-1").GetBytes(post_data);
 					request.ContentLength = bytes.Length;
 
-					using (var writeStream = request.GetRequestStream())
-					{
+					using (var writeStream = request.GetRequestStream()) {
 						writeStream.Write(bytes, 0, bytes.Length);
 					}
 				}
@@ -128,20 +127,21 @@ namespace Place {
 					// grab the response
 					using (var responseStream = response.GetResponseStream()) {
 						if (responseStream != null)
-							using (var reader = new StreamReader(responseStream))
-							{
+							using (var reader = new StreamReader(responseStream)) {
 								responseValue = reader.ReadToEnd();
 							}
 					}
 
-					if (!string.IsNullOrEmpty(id)) {
+					if (!string.IsNullOrEmpty(id) || method == "POST") {
 						if ( method == "PUT" ) {
-							JsonConvert.PopulateObject(responseValue,obj);
+							JsonConvert.PopulateObject(responseValue, obj);
 							return obj;
-						} else
+						} else {
 							return (T) JsonConvert.DeserializeObject(responseValue,typeof(T));
+						}
 					} else {
-						var objs = (PlaceObjectList<T>) JsonConvert.DeserializeObject(responseValue,typeof(PlaceObjectList<T>));
+						var objs = (PlaceObjectList<T>)
+							JsonConvert.DeserializeObject(responseValue,typeof(PlaceObjectList<T>));
 						return (List<T>) objs.values;
 					}
 				}

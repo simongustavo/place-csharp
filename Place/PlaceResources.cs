@@ -11,8 +11,8 @@ namespace Place
 		public string payment_method_id { get; set; }
 		public string deposit_account_id { get; set; }
 		public string status { get; set; }
-		public float  fee { get; set; }
-		public float  amount { get; set; }
+		public float?  fee { get; set; }
+		public float?  amount { get; set; }
 		public string initiated_timestamp { get; set; }
 		public string failed_timestamp { get; set; }
 		public string status_details { get; set; }
@@ -40,10 +40,10 @@ namespace Place
 		public string enrolled_timestamp { get; set; }
 		public string last_payment_status { get; set; }
 		public string last_payment_timestamp { get; set; }
-		public float  lower_limit { get; set; }
+		public float? lower_limit { get; set; }
 		public string payment_method_id { get; set; }
 		public string recurring_invoice_id { get; set; }
-		public float  upper_limit { get; set; }
+		public float? upper_limit { get; set; }
 	}
 
 	public class PlaceEvent: PlaceObject<PlaceEvent> {
@@ -72,11 +72,11 @@ namespace Place
 		public override string resource { get { return "/deposit_accounts"; } }
 		public override string object_type { get { return "deposit_account"; } }
 
-		public bool accepted_terms { get; set; }
+		public bool? accepted_terms { get; set; }
 		public PlaceAddress address { get; set; }
 		public string address_id { get; set; }
 		public string company { get; set; }
-		public bool default_flag { get; set; }
+		public bool? default_flag { get; set; }
 		public PlacePaymentMethod deposit_method { get; set; }
 		public string deposit_method_id { get; set; }
 		public string phone { get; set; }
@@ -88,7 +88,7 @@ namespace Place
 		public override string resource { get { return "/transaction_allocations"; } }
 		public override string object_type { get { return "transaction_allocation"; } }
 
-		public float amount { get; set; }
+		public float? amount { get; set; }
 		public string invoice_id { get; set; }
 		public string invoice_payer_id { get; set; }
 		public string transaction_id { get; set; }
@@ -141,14 +141,14 @@ namespace Place
 		public override string resource { get { return "/recurring_invoices"; } }
 		public override string object_type { get { return "recurring_invoice"; } }
 
-		public bool autogenerate_invoices { get; set; }
-		public int cycle_offset { get; set; }
+		public bool? autogenerate_invoices { get; set; }
+		public int? cycle_offset { get; set; }
 		public string deposit_account_id { get; set; }
 		public string end_date { get; set; }
 		public PlaceInvoice invoice_template { get; set; }
 		public string invoice_template_id { get; set; }
 		public IList<PlaceInvoice> invoices { get; set; }
-		public bool prorated { get; set; }
+		public bool? prorated { get; set; }
 		public string recurring_frequency { get; set; }
 		public string start_date { get; set; }
 	}
@@ -158,21 +158,21 @@ namespace Place
 		public override string object_type { get { return "invoice"; } }
 
 		public string accepted_payment_state { get; set; }
-		public float amount { get; set; }
-		public float amount_paid { get; set; }
-		public float amount_unallocated { get; set; }
+		public float? amount { get; set; }
+		public float? amount_paid { get; set; }
+		public float? amount_unallocated { get; set; }
 		public string completed_date { get; set; }
 		public string deposit_account_id { get; set; }
 		public string description { get; set; }
 		public string due_date { get; set; }
 		public IList<PlaceInvoiceItem> items { get; set; }
 		public string last_payment_date { get; set; }
-		public bool paid { get; set; }
+		public bool? paid { get; set; }
 		public IList<PlaceInvoicePayer> payers { get; set; }
-		public bool payments_blocked { get; set; }
+		public bool? payments_blocked { get; set; }
 		public string recurring_invoice_id { get; set; }
 		public string reference_id { get; set; }
-		public int required_payer_auth_level { get; set; }
+		public int? required_payer_auth_level { get; set; }
 		public string type { get; set; }
 		public FeeSettings fee_settings { get; set; }
 	}
@@ -182,13 +182,13 @@ namespace Place
 		public override string object_type { get { return "invoice_item"; } }
 
 		public IList<PlaceInvoiceItemAllocation> allocations { get; set; }
-		public float amount { get; set; }
-		public float amount_allocated { get; set; }
+		public float? amount { get; set; }
+		public float? amount_allocated { get; set; }
 		public string date_incurred { get; set; }
 		public string description { get; set; }
 		public string invoice_id { get; set; }
-		public bool prorated { get; set; }
-		public bool recurring { get; set; }
+		public bool? prorated { get; set; }
+		public bool? recurring { get; set; }
 		public string type { get; set; }
 	}
 
@@ -196,35 +196,35 @@ namespace Place
 		public override string resource { get { return "/invoice_payers"; } }
 		public override string object_type { get { return "invoice_payer"; } }
 
-		public bool access { get; set; }
+		public bool? access { get; set; }
 		public string account_id { get; set; }
-		public bool active { get; set; }
-		public float amount_allocated { get; set; }
-		public float amount_paid { get; set; }
+		public bool? active { get; set; }
+		public float? amount_allocated { get; set; }
+		public float? amount_paid { get; set; }
 		public string email { get; set; }
 		public string first_name { get; set; }
 		public string invoice_id { get; set; }
 		public string last_name { get; set; }
 		public string last_payment_date { get; set; }
-		public bool paid { get; set; }
+		public bool? paid { get; set; }
 		public string payments_transfer_date { get; set; }
-		public bool payments_transfered { get; set; }
+		public bool? payments_transfered { get; set; }
 	}
 
 	public class PlaceInvoiceItemAllocation: PlaceObject<PlaceInvoiceItemAllocation> {
 		public override string resource { get { return "/invoice_item_allocations"; } }
 		public override string object_type { get { return "invoice_item_allocation"; } }
 
-		public float amount { get; set; }
+		public float? amount { get; set; }
 		public string item_id { get; set; }
 		public string payer_id { get; set; }
 		public string type { get; set; }
 	}
 
 	public class FeeSetting: System.Object {
-		public float distribution { get; set; }
-		public float flat { get; set; }
-		public float pct { get; set; }
+		public float? distribution { get; set; }
+		public float? flat { get; set; }
+		public float? pct { get; set; }
 	}
 
 	public class FeeSettings: System.Object {
