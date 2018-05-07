@@ -55,29 +55,29 @@ namespace Place {
 		public void update( object data, object parameters=null ) {
 			request( "PUT", this.id, parameters, json: data, obj: this );
 		}
-		
+
 		public void delete() {
 			request( "DELETE", this.id, obj: this );
 		}
-		
-    public static List<T> update_all( object[] objects, object parameters=null ) {
-      object[] updates = objects.Select(x=>
-				ObjectHelper
-					.ToDictionary(((object[])x)[1])
-					.Union(new Dictionary<string, object>{ {"id",((object[])x)[0]} })
-				).ToArray();
-      
-      dynamic json = new ExpandoObject();
-      ((IDictionary<string, object>)json).Add("object", "list");
-      ((IDictionary<string, object>)json).Add("values", updates);
 
-      return request("PUT", parameters: parameters, json: json);
-    }
+		public static List<T> update_all( object[] objects, object parameters=null ) {
+			object[] updates = objects.Select(x=>
+					ObjectHelper
+						.ToDictionary(((object[])x)[1])
+						.Union(new Dictionary<string, object>{ {"id",((object[])x)[0]} })
+					).ToArray();
 
-    public static List<T> delete_all( object[] objects ) {
-      string deletes = String.Join("|", objects.Select(x=>x.GetType().GetProperty("id").GetValue(x, null)).ToArray());
-      return request("DELETE", parameters: new{id=deletes});
-    }
+			dynamic json = new ExpandoObject();
+			((IDictionary<string, object>)json).Add("object", "list");
+			((IDictionary<string, object>)json).Add("values", updates);
+
+			return request("PUT", parameters: parameters, json: json);
+		}
+
+		public static List<T> delete_all( object[] objects ) {
+			string deletes = String.Join("|", objects.Select(x=>x.GetType().GetProperty("id").GetValue(x, null)).ToArray());
+			return request("DELETE", parameters: new{id=deletes});
+		}
 
 		public static dynamic request(string method, string id=null,
 			object parameters=null, object json=null, PlaceObject<T> obj=null) {
@@ -103,7 +103,7 @@ namespace Place {
 				string _enc = Convert.ToBase64String(Encoding.ASCII.GetBytes(_auth));
 				string _cred = string.Format("{0} {1}", "Basic", _enc);
 				request.Headers.Add("Authorization", _cred);
-
+				request.Headers.Add("X-API-Version", "v2.5");
 				request.ContentLength = 0;
 				request.Accept = "application/json";
 
@@ -152,7 +152,7 @@ namespace Place {
 						using (var response_stream = WebResponse.GetResponseStream()) {
 							using (var response_reader = new StreamReader(response_stream)) {
 								responseValue = response_reader.ReadToEnd();
-								
+
 								var converter = new ExpandoObjectConverter();
 								dynamic error = JsonConvert.DeserializeObject<ExpandoObject>(responseValue, converter);
 
