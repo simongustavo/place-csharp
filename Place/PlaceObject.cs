@@ -165,6 +165,15 @@ namespace Place {
 				throw ex;
 			}
 		}
+
+		public string json() {
+			JsonSerializerSettings jsonsettings = new JsonSerializerSettings{
+				NullValueHandling = NullValueHandling.Ignore,
+				Formatting = Formatting.Indented
+			};
+
+			return JsonConvert.SerializeObject(this, typeof(PlaceObject<T>), jsonsettings);
+		}
 	}
 
 	public class PlaceObjectList<T>: System.Object {

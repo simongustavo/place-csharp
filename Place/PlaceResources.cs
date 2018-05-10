@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Place
-{
+namespace Place {
 	public class PlaceTransaction: PlaceObject<PlaceTransaction> {
 		public override string resource { get { return "/transactions"; } }
 		public override string object_type { get { return "transaction"; } }
@@ -11,14 +10,17 @@ namespace Place
 		public string payment_method_id { get; set; }
 		public string deposit_account_id { get; set; }
 		public string status { get; set; }
-		public float?  fee { get; set; }
-		public float?  amount { get; set; }
+		public float? fee { get; set; }
+		public float? payer_conv_fee { get; set; }
+		public float? amount { get; set; }
 		public string initiated_timestamp { get; set; }
 		public string failed_timestamp { get; set; }
 		public string status_details { get; set; }
 		public string type { get; set; }
 		public string account_id { get; set; }
 		public PlacePaymentMethod payment_method { get; set; }
+		public IList<PlaceTransactionLedger> credit_ledger { get; set; }
+		public IList<PlaceTransactionLedger> debit_ledger { get; set; }
 	}
 
 	public class PlaceAccessToken: PlaceObject<PlaceAccessToken> {
@@ -233,4 +235,17 @@ namespace Place
 		public FeeSetting debit { get; set; }
 	}
 
+	public class PlaceTransactionLedger: PlaceObject<PlaceTransactionLedger> {
+		public override string resource { get { return "/transaction_ledger"; } }
+		public override string object_type { get { return "transaction_ledger"; } }
+
+		public string account_id { get; set; }
+		public float? amount { get; set; }
+		public string destination_id { get; set; }
+		public string source_id { get; set; }
+		public string status { get; set; }
+		public string timestamp { get; set; }
+		public float? total_amount { get; set; }
+		public string type { get; set; }
+	}
 }
