@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 
-namespace Place {
-	public class PlaceTransaction: PlaceObject<PlaceTransaction> {
+namespace Place
+{
+	public class PlaceTransaction : PlaceObject<PlaceTransaction>
+	{
 		public override string resource { get { return "/transactions"; } }
 		public override string object_type { get { return "transaction"; } }
 
@@ -10,9 +12,9 @@ namespace Place {
 		public string payment_method_id { get; set; }
 		public string deposit_account_id { get; set; }
 		public string status { get; set; }
-		public float? fee { get; set; }
-		public float? payer_conv_fee { get; set; }
-		public float? amount { get; set; }
+		public double? fee { get; set; }
+		public double? payer_conv_fee { get; set; }
+		public double? amount { get; set; }
 		public string initiated_timestamp { get; set; }
 		public string failed_timestamp { get; set; }
 		public string status_details { get; set; }
@@ -23,7 +25,8 @@ namespace Place {
 		public IList<PlaceTransactionLedger> debit_ledger { get; set; }
 	}
 
-	public class PlaceAccessToken: PlaceObject<PlaceAccessToken> {
+	public class PlaceAccessToken : PlaceObject<PlaceAccessToken>
+	{
 		public override string resource { get { return "/access_tokens"; } }
 		public override string object_type { get { return "access_token"; } }
 
@@ -33,7 +36,8 @@ namespace Place {
 		public string expiration { get; set; }
 	}
 
-	public class PlaceAutopayEnrollment: PlaceObject<PlaceAutopayEnrollment> {
+	public class PlaceAutopayEnrollment : PlaceObject<PlaceAutopayEnrollment>
+	{
 		public override string resource { get { return "/autopay_enrollments"; } }
 		public override string object_type { get { return "autopay_enrollment"; } }
 
@@ -48,7 +52,8 @@ namespace Place {
 		public float? upper_limit { get; set; }
 	}
 
-	public class PlaceEvent: PlaceObject<PlaceEvent> {
+	public class PlaceEvent : PlaceObject<PlaceEvent>
+	{
 		public override string resource { get { return "/events"; } }
 		public override string object_type { get { return "event"; } }
 
@@ -56,7 +61,8 @@ namespace Place {
 		public string event_name { get; set; }
 	}
 
-	public class PlaceAccount: PlaceObject<PlaceAccount> {
+	public class PlaceAccount : PlaceObject<PlaceAccount>
+	{
 		public override string resource { get { return "/accounts"; } }
 		public override string object_type { get { return "account"; } }
 
@@ -70,7 +76,8 @@ namespace Place {
 		public string company { get; set; }
 	}
 
-	public class PlaceDepositAccount: PlaceObject<PlaceDepositAccount> {
+	public class PlaceDepositAccount : PlaceObject<PlaceDepositAccount>
+	{
 		public override string resource { get { return "/deposit_accounts"; } }
 		public override string object_type { get { return "deposit_account"; } }
 
@@ -86,7 +93,8 @@ namespace Place {
 		public FeeSettings fee_settings { get; set; }
 	}
 
-	public class PlaceTransactionAllocation: PlaceObject<PlaceTransactionAllocation> {
+	public class PlaceTransactionAllocation : PlaceObject<PlaceTransactionAllocation>
+	{
 		public override string resource { get { return "/transaction_allocations"; } }
 		public override string object_type { get { return "transaction_allocation"; } }
 
@@ -97,16 +105,19 @@ namespace Place {
 		public string type { get; set; }
 	}
 
-	public class PlacePaymentMethod: PlaceObject<PlacePaymentMethod> {
+	public class PlacePaymentMethod : PlaceObject<PlacePaymentMethod>
+	{
 
-		public class PlacePaymentMethodBankAccount: System.Object {
+		public class PlacePaymentMethodBankAccount : System.Object
+		{
 			public string account_class { get; set; }
 			public string account_number { get; set; }
 			public string account_type { get; set; }
 			public string routing_number { get; set; }
 		}
 
-		public class PlacePaymentMethodCreditCard: System.Object {
+		public class PlacePaymentMethodCreditCard : System.Object
+		{
 			public string card_brand { get; set; }
 			public string card_code { get; set; }
 			public string card_number { get; set; }
@@ -127,7 +138,8 @@ namespace Place {
 		public PlacePaymentMethodCreditCard card { get; set; }
 	}
 
-	public class PlaceAddress: PlaceObject<PlaceAddress> {
+	public class PlaceAddress : PlaceObject<PlaceAddress>
+	{
 		public override string resource { get { return "/addresses"; } }
 		public override string object_type { get { return "address"; } }
 
@@ -139,7 +151,8 @@ namespace Place {
 		public string unit_number { get; set; }
 	}
 
-	public class PlaceRecurringInvoice: PlaceObject<PlaceRecurringInvoice> {
+	public class PlaceRecurringInvoice : PlaceObject<PlaceRecurringInvoice>
+	{
 		public override string resource { get { return "/recurring_invoices"; } }
 		public override string object_type { get { return "recurring_invoice"; } }
 
@@ -155,7 +168,8 @@ namespace Place {
 		public string start_date { get; set; }
 	}
 
-	public class PlaceInvoice: PlaceObject<PlaceInvoice> {
+	public class PlaceInvoice : PlaceObject<PlaceInvoice>
+	{
 		public override string resource { get { return "/invoices"; } }
 		public override string object_type { get { return "invoice"; } }
 
@@ -179,7 +193,8 @@ namespace Place {
 		public FeeSettings fee_settings { get; set; }
 	}
 
-	public class PlaceInvoiceItem: PlaceObject<PlaceInvoiceItem> {
+	public class PlaceInvoiceItem : PlaceObject<PlaceInvoiceItem>
+	{
 		public override string resource { get { return "/invoice_items"; } }
 		public override string object_type { get { return "invoice_item"; } }
 
@@ -194,7 +209,8 @@ namespace Place {
 		public string type { get; set; }
 	}
 
-	public class PlaceInvoicePayer: PlaceObject<PlaceInvoicePayer> {
+	public class PlaceInvoicePayer : PlaceObject<PlaceInvoicePayer>
+	{
 		public override string resource { get { return "/invoice_payers"; } }
 		public override string object_type { get { return "invoice_payer"; } }
 
@@ -213,7 +229,8 @@ namespace Place {
 		public bool? payments_transfered { get; set; }
 	}
 
-	public class PlaceInvoiceItemAllocation: PlaceObject<PlaceInvoiceItemAllocation> {
+	public class PlaceInvoiceItemAllocation : PlaceObject<PlaceInvoiceItemAllocation>
+	{
 		public override string resource { get { return "/invoice_item_allocations"; } }
 		public override string object_type { get { return "invoice_item_allocation"; } }
 
@@ -223,29 +240,32 @@ namespace Place {
 		public string type { get; set; }
 	}
 
-	public class FeeSetting: System.Object {
+	public class FeeSetting : System.Object
+	{
 		public float? distribution { get; set; }
 		public float? flat { get; set; }
 		public float? pct { get; set; }
 	}
 
-	public class FeeSettings: System.Object {
+	public class FeeSettings : System.Object
+	{
 		public FeeSetting bank_account { get; set; }
 		public FeeSetting credit { get; set; }
 		public FeeSetting debit { get; set; }
 	}
 
-	public class PlaceTransactionLedger: PlaceObject<PlaceTransactionLedger> {
+	public class PlaceTransactionLedger : PlaceObject<PlaceTransactionLedger>
+	{
 		public override string resource { get { return "/transaction_ledger"; } }
 		public override string object_type { get { return "transaction_ledger"; } }
 
 		public string account_id { get; set; }
-		public float? amount { get; set; }
+		public double? amount { get; set; }
 		public string destination_id { get; set; }
 		public string source_id { get; set; }
 		public string status { get; set; }
 		public string timestamp { get; set; }
-		public float? total_amount { get; set; }
+		public double? total_amount { get; set; }
 		public string type { get; set; }
 	}
 }
